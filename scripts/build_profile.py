@@ -179,12 +179,10 @@ def developer(person, mobile=False):
         out += text(32, 386, person["role"], 29, weight=600)
         out += lines(32, 428, textwrap.wrap(information,width=34), 26, 34, fill=C["muted"])
         button_y, button_h, label_y = 493, 54, 528
-        out += text(32, 598, "Nos vemos por Discord.", 26, C["ice"])
     else:
         out += text(215, 211, person["role"], 27, weight=600)
         out += text(215, 249, information, 23, C["muted"])
         button_y, button_h, label_y = 365, 48, 397
-        out += text(272, 397, "Nos vemos por Discord.", 23, C["ice"])
     out += f'<rect x="32" y="{button_y}" width="{270 if mobile else 218}" height="{button_h}" rx="11" fill="#6827B3" stroke="#A775EA"/>'
     out += text(52, label_y, "Abrir mi perfil", 28 if mobile else 22, weight=600)
     arrow_x = 278 if mobile else 218
