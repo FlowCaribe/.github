@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="24" viewBox="0 0 1200 24" role="img" aria-labelledby="title desc">
+<title id="title">Separador</title>
+<desc id="desc">Línea decorativa violeta y celeste.</desc>
+<defs><linearGradient id="line"><stop stop-color="#8550B0" stop-opacity="0"/><stop offset=".5" stop-color="#B0D0E0"/><stop offset="1" stop-color="#24D9FF" stop-opacity="0"/></linearGradient></defs><path d="M0 12h1200" stroke="url(#line)"/>
+</svg>

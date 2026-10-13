@@ -1,0 +1,34 @@
+name: Validate profile assets
+
+on:
+  push:
+    paths:
+      - README.md
+      - profile/**
+      - scripts/**
+      - .github/workflows/profile-check.yml
+  pull_request:
+    paths:
+      - README.md
+      - profile/**
+      - scripts/**
+      - .github/workflows/profile-check.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Check that generated files match their sources
+        run: |
+          python3 scripts/build_profile.py
+          git diff --exit-code -- README.md profile/README.md profile/assets
+          python3 -c "import subprocess; raise SystemExit(bool(subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard', '--', 'README.md', 'profile/README.md', 'profile/assets']).strip()))"
+      - name: Validate README references and graphics
+        run: python3 scripts/validate_profile.py
