@@ -1,0 +1,18 @@
+{
+  "name": "Flow Caribe RP",
+  "tagline": "Beyond Roleplay. Beyond Limits.",
+  "github": "https://github.com/flowcariberp",
+  "organization": "https://github.com/FlowCaribe",
+  "developers": [
+    {"name": "OscarDev", "handle": "Oscar-Dev0", "role": "Developer", "avatar": "team/oscardev.png", "slug": "oscardev"},
+    {"name": "Muek", "handle": "iMuek", "role": "Developer", "avatar": "team/muek.jpg", "slug": "muek"}
+  ],
+  "owner": {"name": "bfgeezy", "url": "https://www.instagram.com/bfgeezy"},
+  "hosting": {"name": "Master IT Support", "url": "https://masteritsupport.com/", "logo": "hosting/master-it-support.png"},
+  "community": {"discord": null, "website": null, "tiktok": null, "instagram": null, "documentation": null, "fivem": null},
+  "colors": {
+    "background": "#090710", "surface": "#171125", "raised": "#211831",
+    "violet": "#8550B0", "primary": "#A775EA", "ice": "#B0D0E0",
+    "cyan": "#24D9FF", "text": "#FFFFFF", "muted": "#BFB3D1", "line": "#443154"
+  }
+}
