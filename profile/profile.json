@@ -17,6 +17,8 @@
       "name": "Muek",
       "handle": "iMuek",
       "role": "Developer",
+      "secondary_role": "Owner de Master IT Support",
+      "secondary_role_mobile": ["Owner de", "Master IT", "Support"],
       "avatar": "team/muek-discord.png",
       "slug": "muek",
       "discord_id": "193858356052623360",
@@ -38,6 +40,7 @@
   },
   "hosting": {
     "name": "Master IT Support",
+    "owner": "Muek",
     "url": "https://masteritsupport.com/",
     "logo": "hosting/master-it-support.png"
   },

@@ -28,7 +28,7 @@ Los tokens editables están en `profile/profile.json`. Los colores propios de la
 - SVG móvil: lienzo base de 600 px para banners, 128 px para las tres tarjetas de equipo y 288 px para las tarjetas de media anchura. Las tarjetas de equipo amplían la proporción del retrato y utilizan nombres de 24 px, roles de 17 px y usuarios de 15 px. La composición y la escala tipográfica cambian; no se limita a reducir el banner de escritorio.
 - Espaciado gráfico habitual: 24, 28, 32 y 42 px. Radios: 20 px en tarjetas, 24 px en hero y retratos. Los tamaños se escalan con la imagen.
 - Hero centrado, logo dominante, palmeras y silueta urbana originales dibujadas en SVG. El escenario es una ilustración ambiental; no representa una ubicación real o un mapa confirmado del servidor.
-- OscarDev, Muek y Bifi comparten exactamente las mismas dimensiones, estilo y tipografía. OscarDev y Muek son Developer; Bifi es Developer / Owner, según la corrección del usuario. La propiedad y el hosting siguen apareciendo en tarjetas separadas y enlazadas a sus destinos correspondientes.
+- OscarDev, Muek y Bifi comparten exactamente las mismas dimensiones, estilo y tipografía. OscarDev es Developer; Muek es Developer y Owner de Master IT Support; Bifi es Developer / Owner del servidor, según las correcciones del usuario. La propiedad del servidor y el hosting aparecen en tarjetas separadas. La tarjeta del proveedor identifica a Muek como su propietario.
 - Iconos de línea hechos para estos componentes, con trazo de 1,65 unidades y extremos redondeados.
 
 ## Formatos y accesibilidad

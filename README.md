@@ -10,11 +10,11 @@
 
 ## THE DEVELOPMENT TEAM
 
-OscarDev, Muek y Bifi forman el equipo de desarrollo de Flow Caribe RP. Bifi combina desarrollo y dirección del proyecto.
+OscarDev, Muek y Bifi forman el equipo de desarrollo de Flow Caribe RP. Muek también es propietario de Master IT Support. Bifi combina desarrollo y dirección del servidor.
 
 <p align="center">
   <a href="https://discord.com/users/518251720128856084"><picture><source media="(max-width: 600px)" srcset="profile/assets/team/oscardev-mobile.svg" /><img src="profile/assets/team/oscardev.svg" width="32%" alt="OscarDev · Developer. Ver perfil de Discord: oscar_dev." /></picture></a>
-  <a href="https://discord.com/users/193858356052623360"><picture><source media="(max-width: 600px)" srcset="profile/assets/team/muek-mobile.svg" /><img src="profile/assets/team/muek.svg" width="32%" alt="Muek · Developer. Ver perfil de Discord: muek." /></picture></a>
+  <a href="https://discord.com/users/193858356052623360"><picture><source media="(max-width: 600px)" srcset="profile/assets/team/muek-mobile.svg" /><img src="profile/assets/team/muek.svg" width="32%" alt="Muek · Developer · Owner de Master IT Support. Ver perfil de Discord: muek." /></picture></a>
   <a href="https://discord.com/users/1234631585727254582"><picture><source media="(max-width: 600px)" srcset="profile/assets/team/bifi-mobile.svg" /><img src="profile/assets/team/bifi.svg" width="32%" alt="Bifi · Developer / Owner. Ver perfil de Discord: bfbifi." /></picture></a>
 </p>
 
@@ -22,7 +22,7 @@ OscarDev, Muek y Bifi forman el equipo de desarrollo de Flow Caribe RP. Bifi com
 
 <p align="center">
   <a href="https://www.instagram.com/bfgeezy"><picture><source media="(max-width: 600px)" srcset="profile/assets/components/owner-mobile.svg" /><img src="profile/assets/components/owner.svg" width="49%" alt="Bifi · Server Owner. Dirección del proyecto. Ver Instagram." /></picture></a>
-  <a href="https://masteritsupport.com/"><picture><source media="(max-width: 600px)" srcset="profile/assets/hosting/hosting-mobile.svg" /><img src="profile/assets/hosting/hosting.svg" width="49%" alt="Master IT Support · Infrastructure &amp; Hosting. Ver sitio oficial." /></picture></a>
+  <a href="https://masteritsupport.com/"><picture><source media="(max-width: 600px)" srcset="profile/assets/hosting/hosting-mobile.svg" /><img src="profile/assets/hosting/hosting.svg" width="49%" alt="Master IT Support · Infrastructure &amp; Hosting. Owner: Muek. Ver sitio oficial." /></picture></a>
 </p>
 
 ## BEHIND THE EXPERIENCE
@@ -63,10 +63,10 @@ Una selección del código disponible en [GitHub de Flow Caribe RP](https://gith
 | **Flow Caribe RP** | [GitHub · flowcariberp](https://github.com/flowcariberp) |
 | Organización de GitHub | [FlowCaribe](https://github.com/FlowCaribe) |
 | OscarDev · Developer | [Discord · @oscar_dev](https://discord.com/users/518251720128856084) · [GitHub](https://github.com/Oscar-Dev0) |
-| Muek · Developer | [Discord · @muek](https://discord.com/users/193858356052623360) · [GitHub](https://github.com/iMuek) |
+| Muek · Developer · Owner de Master IT Support | [Discord · @muek](https://discord.com/users/193858356052623360) · [GitHub](https://github.com/iMuek) |
 | Bifi · Developer / Owner | [Discord · @bfbifi](https://discord.com/users/1234631585727254582) |
 | Bifi · Dirección del proyecto | [Instagram · bfgeezy](https://www.instagram.com/bfgeezy) |
-| Master IT Support · Hosting | [Sitio oficial](https://masteritsupport.com/) |
+| Master IT Support · Hosting · Owner: Muek | [Sitio oficial](https://masteritsupport.com/) |
 
 <p align="center">
   <picture><source media="(max-width: 600px)" srcset="profile/assets/components/footer-mobile.svg" /><img src="profile/assets/components/footer.svg" width="100%" alt="Flow Caribe RP. Powered by people, code and community." /></picture>

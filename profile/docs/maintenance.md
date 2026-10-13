@@ -42,7 +42,7 @@ python scripts/validate_profile.py
 
 Sustituir `AAAA-MM-DD` por la fecha local de la consulta. La sincronización usa el servicio público de lookup empleado por el README de OscarDev; valida cada ID y descarga los PNG directamente de `cdn.discordapp.com`. No requiere tokens ni consulta mensajes, presencia o membresías. Si una consulta falla, no sustituye los datos anteriores. Los PNG quedan embebidos en los SVG: abrir el README no hace consultas al servicio de lookup.
 
-Los nombres visibles y roles editoriales permanecen en `profile/profile.json`. Bifi conserva el nombre solicitado por el usuario, aunque su nombre global en Discord sea «PRESIDENTE BIFI». La sincronización no modifica sus funciones ni inventa cuentas de GitHub.
+Los nombres visibles y roles editoriales permanecen en `profile/profile.json`. Bifi conserva el nombre solicitado por el usuario, aunque su nombre global en Discord sea «PRESIDENTE BIFI». Muek tiene el rol principal Developer y la función adicional Owner de Master IT Support; `hosting.owner` mantiene la atribución en la tarjeta del proveedor. La sincronización no modifica estas funciones ni inventa cuentas de GitHub.
 
 `community` contiene valores `null` para Discord, web, TikTok, Instagram del servidor, documentación y conexión FiveM. Añadir una URL HTTPS oficial confirmada y regenerar: aparecerá en el ecosistema. Los valores vacíos no crean botones ni enlaces de relleno.
 
@@ -71,7 +71,7 @@ La comprobación visual opcional usa Node.js con `marked` y `playwright`. En est
 
 - Dos entradas README y 21 SVG estáticos, con cinco imágenes originales locales.
 - Logo original transparente de 460 × 460 px; no se fabrica un maestro de mayor resolución ni un SVG del logotipo.
-- Identidad centrada en Flow Caribe RP, tres tarjetas equivalentes con avatares y enlaces de Discord, y Bifi reconocido como Developer / Owner. El hosting conserva su rol diferenciado.
+- Identidad centrada en Flow Caribe RP y tres tarjetas equivalentes con avatares y enlaces de Discord. Muek es Developer y propietario de Master IT Support; Bifi es Developer / Owner del servidor. El hosting conserva su rol diferenciado.
 - Código público atribuido como forks, con referencias a tecnologías verificables y sin afirmaciones sobre despliegue.
 - Enlaces de GitHub e Instagram comprobados con HTTP 200; el hosting fue accesible en navegador, pero bloquea algunas consultas HTTP automatizadas con 403.
 - La generación y la validación no crean commits ni publican cambios. El commit y el push se realizan únicamente cuando el usuario los autoriza.
