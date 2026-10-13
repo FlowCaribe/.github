@@ -1,0 +1,32 @@
+[
+  {
+    "name": "OscarDev",
+    "id": "518251720128856084",
+    "username": "oscar_dev",
+    "global_name": "OscarDev",
+    "avatar_url": "https://cdn.discordapp.com/avatars/518251720128856084/0c03f4d349fe6e3dded95bdbf8b6f2a4.png?size=256",
+    "banner_url": null,
+    "source": "https://www.vibebot.gg/api/tools/avatar-lookup?id=518251720128856084",
+    "checked_on": "2026-10-12"
+  },
+  {
+    "name": "Muek",
+    "id": "193858356052623360",
+    "username": "muek",
+    "global_name": "Muek",
+    "avatar_url": "https://cdn.discordapp.com/avatars/193858356052623360/9e402cf04fc2dbb865787668b1412c6d.png?size=256",
+    "banner_url": "https://cdn.discordapp.com/banners/193858356052623360/a346493c693c32c57645b94746e430df.png?size=1024",
+    "source": "https://www.vibebot.gg/api/tools/avatar-lookup?id=193858356052623360",
+    "checked_on": "2026-10-12"
+  },
+  {
+    "name": "Bifi",
+    "id": "1234631585727254582",
+    "username": "bfbifi",
+    "global_name": "PRESIDENTE BIFI",
+    "avatar_url": "https://cdn.discordapp.com/avatars/1234631585727254582/402c25137d0fc64e8bef8f5f865863de.png?size=256",
+    "banner_url": null,
+    "source": "https://www.vibebot.gg/api/tools/avatar-lookup?id=1234631585727254582",
+    "checked_on": "2026-10-12"
+  }
+]

@@ -17,9 +17,9 @@ Alcance: perfiles, repositorios y recursos gráficos públicos. No se consultaro
 | --- | --- |
 | Logo de Flow Caribe | [Avatar publicado por la organización](https://avatars.githubusercontent.com/u/209276971?v=4), identificado por la API. Copia en `assets/branding/flow-logo.png`: PNG original de 460 × 460 píxeles, con canal alfa. No se redibuja ni se presenta como un original vectorial. |
 | Avatar de flowcariberp | [Imagen publicada por el perfil](https://avatars.githubusercontent.com/u/211046857?v=4): es un identicon de GitHub, por lo que no se utiliza como logo del servidor. |
-| OscarDev y Muek | Perfiles de origen: [Oscar-Dev0](https://github.com/Oscar-Dev0) e [iMuek](https://github.com/iMuek). El rol equivalente **Developer** procede del encargo del usuario. |
-| bfgeezy | El nombre, el rol **Server Owner** y el [enlace de Instagram](https://www.instagram.com/bfgeezy) proceden del encargo. El contenido del perfil no quedó verificado públicamente y no se considera evidencia independiente de propiedad. |
-| Master IT Support | Logo observado en el encabezado y pie de la [web oficial](https://masteritsupport.com/), con texto alternativo «Master IT Support»: [PNG original, 160 × 55 píxeles](https://masteritsupport.com/templates/lagom2/assets/img/logo/logo_big.839953647.png). Su papel como proveedor de hosting de Flow Caribe procede del encargo; la web pública no verifica ese acuerdo. |
+| OscarDev y Muek | GitHub: [Oscar-Dev0](https://github.com/Oscar-Dev0) e [iMuek](https://github.com/iMuek). Sus tarjetas utilizan los avatares auténticos de Discord y enlazan a los IDs facilitados por el usuario. Ambos son **Developer**. El usuario confirmó además que Muek es propietario de **Master IT Support**, y esa atribución se muestra con el nombre de la empresa. |
+| Bifi | El usuario lo incorporó al equipo con rol **Developer / Owner** y facilitó su ID de Discord. El nombre visible «Bifi» procede de esa instrucción; no se deduce un cargo del apodo global de Discord. La sección de dirección conserva el [enlace de Instagram](https://www.instagram.com/bfgeezy) del encargo; no se inventa una cuenta GitHub de Bifi. |
+| Master IT Support | Logo observado en el encabezado y pie de la [web oficial](https://masteritsupport.com/), con texto alternativo «Master IT Support»: [PNG original, 160 × 55 píxeles](https://masteritsupport.com/templates/lagom2/assets/img/logo/logo_big.839953647.png). El rol como proveedor de hosting y la atribución de Muek como propietario proceden de las instrucciones del usuario; la web pública no se utiliza para certificar esos datos. |
 
 ## Repositorios y tecnologías verificables
 
@@ -39,3 +39,23 @@ No se deducen cifras de jugadores, disponibilidad, recursos instalados, especifi
 Los dos perfiles del proyecto, ambos desarrolladores, ambos forks y sus dos referencias técnicas respondieron HTTP 200 al comprobarlos. Instagram respondió HTTP 200; su contenido y la propiedad del perfil no quedan certificados por esa respuesta. Master IT Support fue accesible en navegador durante la auditoría; la consulta HTTP automatizada posterior respondió 403 por su protección de acceso. El archivo de su logo se descargó correctamente del dominio oficial.
 
 La validación del README final se realiza localmente. La API de Markdown de GitHub no se utilizó: la revisión automática de permisos rechazó enviar contenido todavía no publicado. La compatibilidad final del renderizador de GitHub debe confirmarse después de la publicación autorizada.
+
+## Actualización del equipo desde Discord
+
+El usuario facilitó los tres IDs y pidió utilizar sus perfiles de Discord, con los tres como desarrolladores y Bifi también como propietario. Se consultó el mismo servicio público de lookup que utiliza el [sincronizador del README de referencia](https://github.com/Oscar-Dev0/Oscar-Dev0/blob/main/scripts/update_discord.py). El servicio es de terceros; los avatares se descargan del CDN oficial de Discord después de comprobar que el ID devuelto coincide.
+
+| Miembro | ID confirmado en la respuesta | Usuario público | Nombre global consultado | Fuente |
+| :--- | :--- | :--- | :--- | :--- |
+| OscarDev | `518251720128856084` | `oscar_dev` | OscarDev | [Consulta pública](https://www.vibebot.gg/api/tools/avatar-lookup?id=518251720128856084) |
+| Muek | `193858356052623360` | `muek` | Muek | [Consulta pública](https://www.vibebot.gg/api/tools/avatar-lookup?id=193858356052623360) |
+| Bifi | `1234631585727254582` | `bfbifi` | PRESIDENTE BIFI | [Consulta pública](https://www.vibebot.gg/api/tools/avatar-lookup?id=1234631585727254582) |
+
+`profile/discord-profiles.json` registra la fecha local indicada, los datos públicos seleccionados y las URLs originales de los PNG. No se obtienen ni publican mensajes, presencia, membresías o credenciales. El avatar asociado a una cuenta no identifica físicamente a las personas que aparezcan en su imagen. Los roles de Flow Caribe RP proceden de las instrucciones del usuario.
+
+## Cards apiladas y sincronización automática
+
+El usuario pidió cards como la [de OscarDev](https://github.com/Oscar-Dev0/Oscar-Dev0/blob/main/assets/svg/discord-profile.svg), una debajo de otra y con información actualizable. Se conserva la paleta de Flow Caribe y se adopta esa estructura de perfil: encabezado, retrato circular, nombre, usuario, rol, descripción y enlace visual.
+
+El banner de Muek procede del [CDN oficial de Discord](https://cdn.discordapp.com/banners/193858356052623360/a346493c693c32c57645b94746e430df.png?size=1024), hash corroborado por la consulta de su ID. Los otros perfiles no publican banner en la respuesta consultada y utilizan un encabezado de marca. La decoración animada de OscarDev es el [APNG original publicado en su repositorio](https://raw.githubusercontent.com/Oscar-Dev0/Oscar-Dev0/main/assets/discord-angry.png), conservado sin modificar. No se añaden decoraciones inventadas a otros perfiles.
+
+La actualización automática diaria procede de la nueva solicitud del usuario. Publica únicamente cambios reales tras validar los tres perfiles, mantiene las funciones editoriales y conserva el último estado si falla la consulta. Su cron se activa al integrar el workflow en la rama predeterminada.

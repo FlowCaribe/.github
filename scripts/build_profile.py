@@ -9,6 +9,7 @@ import base64
 import html
 import json
 from pathlib import Path
+import textwrap
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "profile"
@@ -33,12 +34,12 @@ def lines(x, y, values, size=24, step=34, **kwargs):
     return "".join(text(x, y + i * step, value, size, **kwargs) for i, value in enumerate(values))
 
 
-def image(path, x, y, width, height, extra=""):
+def image(path, x, y, width, height, extra="", fit="xMidYMid meet"):
     data = (ASSETS / path).read_bytes()
     mime = "image/jpeg" if data.startswith(b"\xff\xd8") else "image/png"
     encoded = base64.b64encode(data).decode("ascii")
     return (f'<image x="{x}" y="{y}" width="{width}" height="{height}" '
-            f'preserveAspectRatio="xMidYMid meet" href="data:{mime};base64,{encoded}" {extra}/>')
+            f'preserveAspectRatio="{fit}" href="data:{mime};base64,{encoded}" {extra}/>')
 
 
 def svg(width, height, title, description, content):
@@ -140,19 +141,59 @@ def hero(mobile=False):
 
 
 def developer(person, mobile=False):
-    w, h = (288, 344) if mobile else (584, 330)
-    avatar_size = 120 if mobile else 126
-    x, y = (w-avatar_size)/2, 34
+    w, h = (600, 640) if mobile else (960, 440)
+    header = 180 if mobile else 160
+    cx, cy, radius = 100, 174 if mobile else 163, 62
+    name = person.get("discord_display_name") or person["name"]
+    handle = person["discord_username"]
+    information = person.get("secondary_role") or person["discord_about"]
     out = panel(w, h)
-    out += f'<defs><clipPath id="avatar"><rect x="{x}" y="{y}" width="{avatar_size}" height="{avatar_size}" rx="24"/></clipPath></defs>'
-    out += f'<circle cx="{w/2}" cy="{y+avatar_size/2}" r="{avatar_size*.64}" fill="#30203F"/>'
-    out += image(person["avatar"], x, y, avatar_size, avatar_size, 'clip-path="url(#avatar)"')
-    out += f'<rect x="{x}" y="{y}" width="{avatar_size}" height="{avatar_size}" rx="24" fill="none" stroke="#A775EA" stroke-opacity=".6"/>'
-    out += text(w/2, 211, person["name"], 35 if mobile else 34, weight=700, anchor="middle", display=True)
-    out += text(w/2, 251, person["role"], 25 if mobile else 23, C["ice"], anchor="middle")
-    out += text(w/2, 303, "@"+person["handle"], 21 if mobile else 20, C["muted"], anchor="middle")
-    write(f'team/{person["slug"]}{"-mobile" if mobile else ""}.svg', svg(w, h, person["name"]+" · Developer",
-          f'Avatar público auténtico de GitHub. {person["name"]}, integrante del equipo de desarrollo de Flow Caribe RP. GitHub: {person["handle"]}.', out))
+    out += ('<defs><linearGradient id="banner-bg" x2="1" y2=".5"><stop stop-color="#171125"/>'
+            '<stop offset="1" stop-color="#111C31"/></linearGradient>'
+            '<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">'
+            '<path d="M40 0H0V40" fill="none" stroke="#B0D0E0" stroke-opacity=".06"/></pattern>'
+            f'<clipPath id="card"><rect x="1" y="1" width="{w-2}" height="{h-2}" rx="20"/></clipPath>'
+            f'<clipPath id="avatar"><circle cx="{cx}" cy="{cy}" r="{radius}"/></clipPath></defs>'
+            '<style>@media(prefers-reduced-motion:reduce){.avatar-decoration{display:none}}</style>')
+    out += f'<g clip-path="url(#card)"><rect width="{w}" height="{header}" fill="url(#banner-bg)"/>'
+    if person.get("discord_banner"):
+        out += image(person["discord_banner"], 0, 0, w, header, fit="xMidYMid slice")
+        out += f'<rect width="{w}" height="{header}" fill="#090710" opacity=".22"/>'
+    else:
+        out += f'<rect width="{w}" height="{header}" fill="url(#grid)"/>'
+        out += (f'<g fill="none" stroke="#8550B0" stroke-opacity=".38">'
+                f'<ellipse cx="{w-175}" cy="76" rx="190" ry="55" transform="rotate(-24 {w-175} 76)"/>'
+                f'<ellipse cx="{w-175}" cy="76" rx="137" ry="38" transform="rotate(-24 {w-175} 76)"/>'
+                f'<circle cx="{w-175}" cy="76" r="65" stroke-dasharray="3 10"/></g>')
+    out += f'<path d="M0 {header}H{w}" stroke="{C["line"]}"/></g>'
+    out += '<rect x="24" y="20" width="225" height="36" rx="18" fill="#090710" fill-opacity=".88" stroke="#443154"/>'
+    out += text(136.5, 44, "Conectemos en Discord", 17, C["ice"], anchor="middle")
+    out += f'<circle cx="{cx}" cy="{cy}" r="{radius+8}" fill="#090710" stroke="#A775EA" stroke-opacity=".55"/>'
+    out += image(person["avatar"], cx-radius, cy-radius, radius*2, radius*2, 'clip-path="url(#avatar)"')
+    if person.get("decoration"):
+        out += image(person["decoration"], cx-85, cy-85, 170, 170, 'class="avatar-decoration"')
+    name_size = min(42, (w-64)/max(len(name), 1)/.68)
+    out += text(32, 292, name, name_size, weight=700, display=True)
+    out += text(32, 333, handle, 27 if mobile else 23, C["ice"])
+    if mobile:
+        out += text(32, 386, person["role"], 29, weight=600)
+        out += lines(32, 428, textwrap.wrap(information,width=34), 26, 34, fill=C["muted"])
+        button_y, button_h, label_y = 493, 54, 528
+        out += text(32, 598, "Nos vemos por Discord.", 26, C["ice"])
+    else:
+        out += text(215, 211, person["role"], 27, weight=600)
+        out += text(215, 249, information, 23, C["muted"])
+        button_y, button_h, label_y = 365, 48, 397
+        out += text(272, 397, "Nos vemos por Discord.", 23, C["ice"])
+    out += f'<rect x="32" y="{button_y}" width="{270 if mobile else 218}" height="{button_h}" rx="11" fill="#6827B3" stroke="#A775EA"/>'
+    out += text(52, label_y, "Abrir mi perfil", 28 if mobile else 22, weight=600)
+    arrow_x = 278 if mobile else 218
+    out += f'<path d="M{arrow_x} {label_y-13}h10v10m-10 0 10-10" fill="none" stroke="#FFFFFF" stroke-width="2"/>'
+    discord_path = 'M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z'
+    out += f'<path transform="translate({w-78} {h-76}) scale(2)" fill="{C["ice"]}" d="{discord_path}"/>'
+    write(f'team/{person["slug"]}{"-mobile" if mobile else ""}.svg', svg(w, h, name+" en Discord · "+role_label(person),
+          f'Nombre, usuario, avatar y banner públicos de Discord. {person["name"]}: {role_label(person)}. '
+          f'Usuario: {handle}. Abrir perfil de Discord. La tarjeta no representa presencia en tiempo real.', out))
 
 
 def owner(mobile=False):
@@ -166,8 +207,8 @@ def owner(mobile=False):
         out += text(28, 202, "Dirección del proyecto", 20, C["muted"])
     if mobile:
         out += text(28, 287, "Instagram", 24, C["ice"])
-    write(f'components/owner{"-mobile" if mobile else ""}.svg', svg(w, h, "bfgeezy · Server Owner",
-          "bfgeezy, propietario de Flow Caribe RP. Abrir su perfil de Instagram.", out))
+    write(f'components/owner{"-mobile" if mobile else ""}.svg', svg(w, h, CONFIG["owner"]["name"]+" · Server Owner",
+          CONFIG["owner"]["name"]+", propietario de Flow Caribe RP y miembro del equipo de desarrollo. Abrir su perfil de Instagram.", out))
 
 
 def hosting(mobile=False):
@@ -179,12 +220,14 @@ def hosting(mobile=False):
     out += text(28, 116 if mobile else 102, "Hosting", 25 if mobile else 21, C["ice"])
     if mobile:
         out += lines(28, 164, ["Master IT", "Support"], 33, 39, weight=700, display=True)
-        out += lines(28, 253, ["Proveedor de", "infraestructura"], 24, 30, fill=C["muted"])
+        out += text(28, 245, "Infraestructura", 22, C["muted"])
+        out += text(28, 283, "Owner: "+CONFIG["hosting"]["owner"], 24, C["ice"])
     else:
         out += text(28, 153, CONFIG["hosting"]["name"], 36, weight=700, display=True)
         out += text(28, 202, "Proveedor de infraestructura", 20, C["muted"])
+        out += text(28, 229, "Owner: "+CONFIG["hosting"]["owner"], 18, C["ice"])
     write(f'hosting/hosting{"-mobile" if mobile else ""}.svg', svg(w, h, "Master IT Support · Infrastructure & Hosting",
-          "Master IT Support, proveedor de hosting de Flow Caribe RP. Logo auténtico. Abrir sitio oficial.", out))
+          "Master IT Support, proveedor de hosting de Flow Caribe RP. Propietario: "+CONFIG["hosting"]["owner"]+". Logo auténtico. Abrir sitio oficial.", out))
 
 
 def development(mobile=False):
@@ -193,7 +236,7 @@ def development(mobile=False):
     out += text(32 if mobile else 42, 60, "El trabajo detrás del roleplay.", 31 if mobile else 34, weight=700, display=True)
     items = [("code", "FiveM", "Lua"), ("screen", "Web & NUI", "React · TypeScript"),
              ("data", "Datos", "mysql-async"), ("tools", "Herramientas", "Python"),
-             ("server", "Infraestructura", "Master IT Support"), ("team", "Desarrollo", "OscarDev + Muek")]
+             ("server", "Infraestructura", "Master IT Support"), ("team", "Desarrollo", " + ".join(p["name"] for p in CONFIG["developers"]))]
     cols = 2 if mobile else 3
     for i, (symbol, name, detail) in enumerate(items):
         col, row = i % cols, i // cols
@@ -203,7 +246,7 @@ def development(mobile=False):
         out += text(cx, top+76, name, 27 if mobile else 25, weight=600, anchor="middle")
         out += text(cx, top+110, detail, 22 if mobile else 20, C["muted"], anchor="middle")
     write(f'components/development{"-mobile" if mobile else ""}.svg', svg(w, h, "Behind the experience",
-          "Tecnologías observadas en repositorios públicos: FiveM y Lua, React y TypeScript, mysql-async y Python. No confirma su despliegue. Infraestructura: Master IT Support. Desarrollo: OscarDev y Muek.", out))
+          "Tecnologías observadas en repositorios públicos: FiveM y Lua, React y TypeScript, mysql-async y Python. No confirma su despliegue. Infraestructura: Master IT Support. Desarrollo: "+", ".join(p["name"] for p in CONFIG["developers"])+".", out))
 
 
 PROJECTS = [
@@ -251,24 +294,35 @@ def linked(url, contents):
     return f'<a href="{esc(url)}">{contents}</a>'
 
 
+def person_link(person):
+    if person.get("discord_id"):
+        return "https://discord.com/users/" + person["discord_id"]
+    return "https://github.com/" + person["handle"]
+
+
+def role_label(person):
+    return person["role"] + (" · " + person["secondary_role"] if person.get("secondary_role") else "")
+
+
 def readme(prefix, docs):
     hero_img = picture(prefix, "hero/desktop.svg", "hero/mobile.svg", "Flow Caribe RP. FiveM Roleplay Community. " + CONFIG["tagline"])
     out = [f'<!-- Generated by scripts/build_profile.py. Edit profile/profile.json or the builder. -->\n\n<p align="center">\n  {linked(CONFIG["github"], hero_img)}\n</p>',
            '## ABOUT FLOW CARIBE RP\n\n**Flow Caribe RP** es un proyecto de FiveM que reúne comunidad, desarrollo y operación técnica alrededor de una experiencia de roleplay con identidad caribeña. El trabajo en equipo sostiene la evolución del servidor, sus sistemas personalizados y las experiencias que comparte la comunidad.',
-           '## THE DEVELOPMENT TEAM\n\nDos desarrolladores, una misma visión para Flow Caribe RP.']
-    cards = []
+           '## THE DEVELOPMENT TEAM\n\nOscarDev, Muek y Bifi forman el equipo de desarrollo de Flow Caribe RP. Muek también es propietario de Master IT Support. Bifi combina desarrollo y dirección del servidor.']
     for person in CONFIG["developers"]:
         name = person["slug"]
-        cards.append(linked("https://github.com/"+person["handle"], picture(prefix, f"team/{name}.svg", f"team/{name}-mobile.svg",
-                      f'{person["name"]} · Developer. Ver perfil de GitHub: {person["handle"]}.', "49%")))
-    out.append('<p align="center">\n  ' + '\n  '.join(cards) + '\n</p>')
+        service = "Discord" if person.get("discord_id") else "GitHub"
+        handle = person.get("discord_username") or person.get("handle")
+        out.append('<p align="center">\n  '+linked(person_link(person), picture(prefix, f"team/{name}.svg", f"team/{name}-mobile.svg",
+                      f'{person["name"]} · {role_label(person)}. Ver perfil de {service}: {handle}.'))+'\n</p>')
+    out.append('<sub>Perfiles de Discord con información sincronizada. Las tarjetas muestran la última copia guardada.</sub>')
     out.append('## PROJECT & INFRASTRUCTURE')
     out.append('<p align="center">\n  ' + linked(CONFIG["owner"]["url"], picture(prefix, "components/owner.svg", "components/owner-mobile.svg",
-               "bfgeezy · Server Owner. Dirección del proyecto. Ver Instagram.", "49%")) + '\n  ' + linked(CONFIG["hosting"]["url"], picture(prefix,
-               "hosting/hosting.svg", "hosting/hosting-mobile.svg", "Master IT Support · Infrastructure & Hosting. Ver sitio oficial.", "49%")) + '\n</p>')
+               CONFIG["owner"]["name"]+" · Server Owner. Dirección del proyecto. Ver Instagram.", "49%")) + '\n  ' + linked(CONFIG["hosting"]["url"], picture(prefix,
+               "hosting/hosting.svg", "hosting/hosting-mobile.svg", "Master IT Support · Infrastructure & Hosting. Owner: "+CONFIG["hosting"]["owner"]+". Ver sitio oficial.", "49%")) + '\n</p>')
     out.append('## BEHIND THE EXPERIENCE')
     out.append('<p align="center">\n  ' + picture(prefix, "components/development.svg", "components/development-mobile.svg",
-               "Repositorios públicos: FiveM y Lua; Web y NUI con React y TypeScript; datos con mysql-async; herramientas con Python. Hosting: Master IT Support. Desarrollo: OscarDev y Muek.") + '\n</p>')
+               "Repositorios públicos: FiveM y Lua; Web y NUI con React y TypeScript; datos con mysql-async; herramientas con Python. Hosting: Master IT Support. Desarrollo: "+", ".join(p["name"] for p in CONFIG["developers"])+".") + '\n</p>')
     out.append('Las tecnologías mostradas se pueden consultar en el código público de `flowcariberp`. Describen esos repositorios y no constituyen un inventario de lo que está desplegado en el servidor.')
     out.append('<details>\n<summary>Consultar las referencias técnicas</summary>\n\n'
                '| Área | Evidencia pública |\n| :--- | :--- |\n'
@@ -284,9 +338,10 @@ def readme(prefix, docs):
                '| Espacio | Enlace |\n| :--- | :--- |\n'
                f'| **Flow Caribe RP** | [GitHub · flowcariberp]({CONFIG["github"]}) |\n'
                f'| Organización de GitHub | [FlowCaribe]({CONFIG["organization"]}) |\n' +
-               ''.join(f'| {p["name"]} · Developer | [GitHub · {p["handle"]}](https://github.com/{p["handle"]}) |\n' for p in CONFIG["developers"]) +
-               f'| bfgeezy · Server Owner | [Instagram]({CONFIG["owner"]["url"]}) |\n'
-               f'| Master IT Support · Hosting | [Sitio oficial]({CONFIG["hosting"]["url"]}) |')
+               ''.join(f'| {p["name"]} · {role_label(p)} | [Discord · @{p["discord_username"]}]({person_link(p)})' +
+                       (f' · [GitHub](https://github.com/{p["handle"]})' if p.get("handle") else '') + ' |\n' for p in CONFIG["developers"]) +
+               f'| {CONFIG["owner"]["name"]} · Dirección del proyecto | [Instagram · bfgeezy]({CONFIG["owner"]["url"]}) |\n'
+               f'| Master IT Support · Hosting · Owner: {CONFIG["hosting"]["owner"]} | [Sitio oficial]({CONFIG["hosting"]["url"]}) |')
     extra = {"discord": "Discord", "website": "Web oficial", "tiktok": "TikTok", "instagram": "Instagram del servidor",
              "documentation": "Documentación", "fivem": "Conexión FiveM"}
     for key, value in CONFIG["community"].items():
@@ -315,7 +370,7 @@ def main():
           '<defs><linearGradient id="line"><stop stop-color="#8550B0" stop-opacity="0"/><stop offset=".5" stop-color="#B0D0E0"/><stop offset="1" stop-color="#24D9FF" stop-opacity="0"/></linearGradient></defs><path d="M0 12h1200" stroke="url(#line)"/>'))
     (PROFILE / "README.md").write_text(readme("assets/", "docs/"), encoding="utf-8", newline="\n")
     (ROOT / "README.md").write_text(readme("profile/assets/", "profile/docs/"), encoding="utf-8", newline="\n")
-    print("Built 19 SVG assets and 2 README entry points.")
+    print(f"Built {len(list(ASSETS.rglob('*.svg')))} SVG assets and 2 README entry points.")
 
 
 if __name__ == "__main__":

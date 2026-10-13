@@ -4,15 +4,78 @@
   "github": "https://github.com/flowcariberp",
   "organization": "https://github.com/FlowCaribe",
   "developers": [
-    {"name": "OscarDev", "handle": "Oscar-Dev0", "role": "Developer", "avatar": "team/oscardev.png", "slug": "oscardev"},
-    {"name": "Muek", "handle": "iMuek", "role": "Developer", "avatar": "team/muek.jpg", "slug": "muek"}
+    {
+      "name": "OscarDev",
+      "handle": "Oscar-Dev0",
+      "role": "Developer",
+      "discord_about": "Desarrollo de Flow Caribe RP.",
+      "decoration": "team/oscardev-decoration.png",
+      "avatar": "team/oscardev-discord.png",
+      "slug": "oscardev",
+      "discord_id": "518251720128856084",
+      "discord_username": "oscar_dev",
+      "discord_display_name": "OscarDev",
+      "discord_banner": null
+    },
+    {
+      "name": "Muek",
+      "handle": "iMuek",
+      "role": "Developer",
+      "secondary_role": "Owner de Master IT Support",
+      "discord_about": "Desarrollo y hosting para Flow Caribe RP.",
+      "secondary_role_mobile": [
+        "Owner de",
+        "Master IT",
+        "Support"
+      ],
+      "avatar": "team/muek-discord.png",
+      "slug": "muek",
+      "discord_id": "193858356052623360",
+      "discord_username": "muek",
+      "discord_display_name": "Muek",
+      "discord_banner": "team/muek-banner.png"
+    },
+    {
+      "name": "Bifi",
+      "handle": null,
+      "role": "Developer / Owner",
+      "discord_about": "Desarrollo y dirección de Flow Caribe RP.",
+      "avatar": "team/bifi-discord.png",
+      "slug": "bifi",
+      "discord_id": "1234631585727254582",
+      "discord_username": "bfbifi",
+      "discord_display_name": "PRESIDENTE BIFI",
+      "discord_banner": null
+    }
   ],
-  "owner": {"name": "bfgeezy", "url": "https://www.instagram.com/bfgeezy"},
-  "hosting": {"name": "Master IT Support", "url": "https://masteritsupport.com/", "logo": "hosting/master-it-support.png"},
-  "community": {"discord": null, "website": null, "tiktok": null, "instagram": null, "documentation": null, "fivem": null},
+  "owner": {
+    "name": "Bifi",
+    "url": "https://www.instagram.com/bfgeezy"
+  },
+  "hosting": {
+    "name": "Master IT Support",
+    "owner": "Muek",
+    "url": "https://masteritsupport.com/",
+    "logo": "hosting/master-it-support.png"
+  },
+  "community": {
+    "discord": null,
+    "website": null,
+    "tiktok": null,
+    "instagram": null,
+    "documentation": null,
+    "fivem": null
+  },
   "colors": {
-    "background": "#090710", "surface": "#171125", "raised": "#211831",
-    "violet": "#8550B0", "primary": "#A775EA", "ice": "#B0D0E0",
-    "cyan": "#24D9FF", "text": "#FFFFFF", "muted": "#BFB3D1", "line": "#443154"
+    "background": "#090710",
+    "surface": "#171125",
+    "raised": "#211831",
+    "violet": "#8550B0",
+    "primary": "#A775EA",
+    "ice": "#B0D0E0",
+    "cyan": "#24D9FF",
+    "text": "#FFFFFF",
+    "muted": "#BFB3D1",
+    "line": "#443154"
   }
 }

@@ -11,6 +11,7 @@ fs.mkdirSync(output, { recursive: true });
 const cssPath = path.join(root, '.preview', 'github-markdown.css');
 if (!fs.existsSync(cssPath)) throw new Error('Place github-markdown.css in .preview/; see maintenance.md.');
 const css = fs.readFileSync(cssPath, 'utf8');
+const expectedTeamCount = JSON.parse(fs.readFileSync(path.join(root, 'profile', 'profile.json'), 'utf8')).developers.length;
 const rendered = marked.parse(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), { gfm: true });
 const shell = `<!doctype html><html lang="es"><head><meta charset="utf-8"><base href="../"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flow Caribe RP · README preview</title><style>${css}
 body{margin:0;background:#fff}@media(prefers-color-scheme:dark){body{background:#0d1117}}.markdown-body{box-sizing:border-box;max-width:1012px;margin:32px auto;padding:32px;border:1px solid var(--borderColor-default,#d1d9e0);border-radius:12px}a:focus-visible{outline:2px solid #A775EA;outline-offset:4px}img{vertical-align:top}@media(max-width:767px){.markdown-body{margin:0;padding:24px;border:0;border-radius:0}}@media(max-width:360px){.markdown-body{padding:16px}}
@@ -49,13 +50,14 @@ function filesIn(dir) {
         await page.goto(base, { waitUntil: 'networkidle' });
         const metrics = await page.evaluate(() => ({
           overflow: document.documentElement.scrollWidth > innerWidth,
-          images: [...document.images].map(img => ({ src: new URL(img.currentSrc).pathname, loaded: img.complete && img.naturalWidth > 0, width: img.getBoundingClientRect().width, height: img.getBoundingClientRect().height })),
+          images: [...document.images].map(img => ({ src: new URL(img.currentSrc).pathname, loaded: img.complete && img.naturalWidth > 0, width: img.getBoundingClientRect().width, height: img.getBoundingClientRect().height, top:img.getBoundingClientRect().top, bottom:img.getBoundingClientRect().bottom })),
           links: document.querySelectorAll('a').length,
           tables: document.querySelectorAll('table').length,
         }));
         if (metrics.overflow || metrics.images.some(img => !img.loaded)) throw new Error(`Failed layout or image at ${width}px/${theme}`);
         const team = metrics.images.filter(img => img.src.includes('/team/'));
-        if (team.length !== 2 || Math.abs(team[0].width-team[1].width)>1 || Math.abs(team[0].height-team[1].height)>1) throw new Error('Unequal developer cards');
+        if (team.length !== expectedTeamCount || team.some(card => Math.abs(team[0].width-card.width)>1 || Math.abs(team[0].height-card.height)>1)) throw new Error('Unequal developer cards');
+        if (team.some((card,index)=>index>0 && card.top<team[index-1].bottom)) throw new Error('Discord cards must be stacked vertically');
         await page.screenshot({ path: path.join(output, `${theme}-${width}.png`), fullPage: true });
         report.viewports.push({ theme, width, ...metrics });
       }
@@ -74,7 +76,7 @@ function filesIn(dir) {
     }
     fs.writeFileSync(path.join(output, 'qa.json'), JSON.stringify(report, null, 2));
     if (report.textOverflow.length) throw new Error(`Text overflow in ${report.textOverflow.length} SVG labels; see qa.json.`);
-    console.log(`Verified 8 viewport/theme combinations, 19 SVG text bounds, equal team cards and loaded assets. Screenshots: ${output}`);
+    console.log(`Verified 8 viewport/theme combinations, ${filesIn(path.join(root, 'profile', 'assets')).filter(file => file.endsWith('.svg')).length} SVG text bounds, ${expectedTeamCount} equal team cards and loaded assets. Screenshots: ${output}`);
   } finally {
     await browser.close();
     await new Promise(resolve => server.close(resolve));
