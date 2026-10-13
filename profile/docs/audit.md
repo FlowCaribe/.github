@@ -51,3 +51,11 @@ El usuario facilitó los tres IDs y pidió utilizar sus perfiles de Discord, con
 | Bifi | `1234631585727254582` | `bfbifi` | PRESIDENTE BIFI | [Consulta pública](https://www.vibebot.gg/api/tools/avatar-lookup?id=1234631585727254582) |
 
 `profile/discord-profiles.json` registra la fecha local indicada, los datos públicos seleccionados y las URLs originales de los PNG. No se obtienen ni publican mensajes, presencia, membresías o credenciales. El avatar asociado a una cuenta no identifica físicamente a las personas que aparezcan en su imagen. Los roles de Flow Caribe RP proceden de las instrucciones del usuario.
+
+## Cards apiladas y sincronización automática
+
+El usuario pidió cards como la [de OscarDev](https://github.com/Oscar-Dev0/Oscar-Dev0/blob/main/assets/svg/discord-profile.svg), una debajo de otra y con información actualizable. Se conserva la paleta de Flow Caribe y se adopta esa estructura de perfil: encabezado, retrato circular, nombre, usuario, rol, descripción y enlace visual.
+
+El banner de Muek procede del [CDN oficial de Discord](https://cdn.discordapp.com/banners/193858356052623360/a346493c693c32c57645b94746e430df.png?size=1024), hash corroborado por la consulta de su ID. Los otros perfiles no publican banner en la respuesta consultada y utilizan un encabezado de marca. La decoración animada de OscarDev es el [APNG original publicado en su repositorio](https://raw.githubusercontent.com/Oscar-Dev0/Oscar-Dev0/main/assets/discord-angry.png), conservado sin modificar. No se añaden decoraciones inventadas a otros perfiles.
+
+La actualización automática diaria procede de la nueva solicitud del usuario. Publica únicamente cambios reales tras validar los tres perfiles, mantiene las funciones editoriales y conserva el último estado si falla la consulta. Su cron se activa al integrar el workflow en la rama predeterminada.

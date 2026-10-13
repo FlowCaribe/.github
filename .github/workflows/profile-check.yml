@@ -32,3 +32,5 @@ jobs:
           python3 -c "import subprocess; raise SystemExit(bool(subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard', '--', 'README.md', 'profile/README.md', 'profile/assets']).strip()))"
       - name: Validate README references and graphics
         run: python3 scripts/validate_profile.py
+      - name: Check synchronization safeguards offline
+        run: python3 -m unittest discover -s scripts -p 'test_sync_discord_profiles.py'

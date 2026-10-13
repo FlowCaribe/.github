@@ -13,10 +13,18 @@
 OscarDev, Muek y Bifi forman el equipo de desarrollo de Flow Caribe RP. Muek también es propietario de Master IT Support. Bifi combina desarrollo y dirección del servidor.
 
 <p align="center">
-  <a href="https://discord.com/users/518251720128856084"><picture><source media="(max-width: 600px)" srcset="assets/team/oscardev-mobile.svg" /><img src="assets/team/oscardev.svg" width="32%" alt="OscarDev · Developer. Ver perfil de Discord: oscar_dev." /></picture></a>
-  <a href="https://discord.com/users/193858356052623360"><picture><source media="(max-width: 600px)" srcset="assets/team/muek-mobile.svg" /><img src="assets/team/muek.svg" width="32%" alt="Muek · Developer · Owner de Master IT Support. Ver perfil de Discord: muek." /></picture></a>
-  <a href="https://discord.com/users/1234631585727254582"><picture><source media="(max-width: 600px)" srcset="assets/team/bifi-mobile.svg" /><img src="assets/team/bifi.svg" width="32%" alt="Bifi · Developer / Owner. Ver perfil de Discord: bfbifi." /></picture></a>
+  <a href="https://discord.com/users/518251720128856084"><picture><source media="(max-width: 600px)" srcset="assets/team/oscardev-mobile.svg" /><img src="assets/team/oscardev.svg" width="100%" alt="OscarDev · Developer. Ver perfil de Discord: oscar_dev." /></picture></a>
 </p>
+
+<p align="center">
+  <a href="https://discord.com/users/193858356052623360"><picture><source media="(max-width: 600px)" srcset="assets/team/muek-mobile.svg" /><img src="assets/team/muek.svg" width="100%" alt="Muek · Developer · Owner de Master IT Support. Ver perfil de Discord: muek." /></picture></a>
+</p>
+
+<p align="center">
+  <a href="https://discord.com/users/1234631585727254582"><picture><source media="(max-width: 600px)" srcset="assets/team/bifi-mobile.svg" /><img src="assets/team/bifi.svg" width="100%" alt="Bifi · Developer / Owner. Ver perfil de Discord: bfbifi." /></picture></a>
+</p>
+
+<sub>Perfiles de Discord con información sincronizada. Las tarjetas muestran la última copia guardada.</sub>
 
 ## PROJECT & INFRASTRUCTURE
 

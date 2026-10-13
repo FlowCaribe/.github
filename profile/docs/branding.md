@@ -24,8 +24,8 @@ Los tokens editables están en `profile/profile.json`. Los colores propios de la
 ## Tipografía y composición
 
 - Títulos gráficos: `Trebuchet MS`, con alternativas `Segoe UI`, `Arial` y `sans-serif`. Cuerpo: `Segoe UI`, `Arial`, `sans-serif`. No se cargan fuentes externas.
-- SVG de escritorio: lienzo base de 1200 px; títulos 31–42 px, texto 20–26 px. Las tres tarjetas de equipo tienen un lienzo de 384 px y nombres de 34 px.
-- SVG móvil: lienzo base de 600 px para banners, 128 px para las tres tarjetas de equipo y 288 px para las tarjetas de media anchura. Las tarjetas de equipo amplían la proporción del retrato y utilizan nombres de 24 px, roles de 17 px y usuarios de 15 px. La composición y la escala tipográfica cambian; no se limita a reducir el banner de escritorio.
+- SVG de escritorio: lienzo base de 1200 px; las cards de Discord miden 960 × 440 px, con nombres de hasta 42 px, roles de 27 px y texto secundario de 23 px.
+- SVG móvil: lienzo de 600 × 640 px para cada card de Discord. Se reorganizan nombre, usuario, roles y botón en una columna con tipografía de 22–42 px. Las tarjetas de dirección y hosting conservan su lienzo de 288 px.
 - Espaciado gráfico habitual: 24, 28, 32 y 42 px. Radios: 20 px en tarjetas, 24 px en hero y retratos. Los tamaños se escalan con la imagen.
 - Hero centrado, logo dominante, palmeras y silueta urbana originales dibujadas en SVG. El escenario es una ilustración ambiental; no representa una ubicación real o un mapa confirmado del servidor.
 - OscarDev, Muek y Bifi comparten exactamente las mismas dimensiones, estilo y tipografía. OscarDev es Developer; Muek es Developer y Owner de Master IT Support; Bifi es Developer / Owner del servidor, según las correcciones del usuario. La propiedad del servidor y el hosting aparecen en tarjetas separadas. La tarjeta del proveedor identifica a Muek como su propietario.
@@ -33,12 +33,12 @@ Los tokens editables están en `profile/profile.json`. Los colores propios de la
 
 ## Formatos y accesibilidad
 
-Los 21 SVG son estáticos y autocontenidos: PNG auténticos embebidos, degradados internos, texto nativo y geometría vectorial. No contienen JavaScript, `foreignObject`, CSS externo, estadísticas remotas ni animaciones. El separador queda disponible como recurso reutilizable, sin añadirlo entre todas las secciones.
+Los 21 SVG son autocontenidos: PNG auténticos embebidos, degradados internos, texto nativo y geometría vectorial. No contienen JavaScript, `foreignObject`, CSS externo ni estadísticas remotas. La decoración de OscarDev es el APNG original de su tarjeta de referencia; se oculta cuando el visor solicita `prefers-reduced-motion: reduce`, dejando el retrato estático. Las otras composiciones no añaden movimiento. El separador queda disponible como recurso reutilizable.
 
 Cada componente informativo tiene `title`, `desc` y texto alternativo en el README. Los enlaces principales también aparecen como texto en la tabla de ecosistema, para que la navegación no dependa exclusivamente de las imágenes. Las referencias técnicas quedan en un bloque desplegable.
 
 El texto blanco, celeste y muted supera **4,5:1** sobre ambos extremos del fondo de las tarjetas. Los bordes y el horizonte son decorativos. El fondo oscuro forma parte de los SVG y permite conservar su identidad tanto en GitHub claro como oscuro.
 
-Las imágenes se seleccionan con `<picture>` y `media="(max-width: 600px)"`. Las tres tarjetas del equipo ocupan un 32 % cada una y enlazan a sus perfiles de Discord. Las tarjetas de dirección y hosting ocupan un 49 % cada una. Las versiones móviles tienen igual tamaño dentro de cada grupo para sostener la comparación y la legibilidad. No se necesita CSS de usuario en GitHub.
+Las imágenes se seleccionan con `<picture>` y `media="(max-width: 600px)"`. Las cards de Discord ocupan el 100 % de la anchura y se muestran una debajo de otra, cada una enlazada a su perfil. Tienen encabezado con banner auténtico o fondo de marca, retrato circular, nombre público, usuario, roles y botón visual «Abrir mi perfil». El enlace abarca la card completa. Las tarjetas de dirección y hosting ocupan un 49 % cada una. No se necesita CSS de usuario en GitHub.
 
 Los logos y avatares pertenecen a sus titulares. El archivo `LICENSE` del repositorio no se interpreta como una cesión de los derechos sobre marcas o retratos de terceros. Su procedencia está registrada en [audit.md](audit.md).

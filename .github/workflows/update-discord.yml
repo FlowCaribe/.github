@@ -1,0 +1,47 @@
+name: Update Discord profile cards
+
+on:
+  schedule:
+    # 06:23 UTC = 00:23 America/Costa_Rica.
+    - cron: '23 6 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - profile/profile.json
+      - scripts/sync_discord_profiles.py
+      - scripts/build_profile.py
+      - scripts/test_sync_discord_profiles.py
+      - .github/workflows/update-discord.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: discord-profiles-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check synchronization safeguards
+        run: python3 -m unittest discover -s scripts -p 'test_sync_discord_profiles.py'
+      - name: Fetch public Discord profiles
+        run: python3 scripts/sync_discord_profiles.py
+      - name: Build and validate the cards
+        run: |
+          python3 scripts/build_profile.py
+          python3 scripts/validate_profile.py
+      - name: Publish changed profiles
+        run: |
+          git add README.md profile/README.md profile/profile.json profile/discord-profiles.json profile/assets/team
+          if git diff --cached --quiet; then
+            echo "Discord profiles are unchanged."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "chore: sync Discord profile cards"
+          git push

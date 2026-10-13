@@ -8,30 +8,44 @@
       "name": "OscarDev",
       "handle": "Oscar-Dev0",
       "role": "Developer",
+      "discord_about": "Desarrollo de Flow Caribe RP.",
+      "decoration": "team/oscardev-decoration.png",
       "avatar": "team/oscardev-discord.png",
       "slug": "oscardev",
       "discord_id": "518251720128856084",
-      "discord_username": "oscar_dev"
+      "discord_username": "oscar_dev",
+      "discord_display_name": "OscarDev",
+      "discord_banner": null
     },
     {
       "name": "Muek",
       "handle": "iMuek",
       "role": "Developer",
       "secondary_role": "Owner de Master IT Support",
-      "secondary_role_mobile": ["Owner de", "Master IT", "Support"],
+      "discord_about": "Desarrollo y hosting para Flow Caribe RP.",
+      "secondary_role_mobile": [
+        "Owner de",
+        "Master IT",
+        "Support"
+      ],
       "avatar": "team/muek-discord.png",
       "slug": "muek",
       "discord_id": "193858356052623360",
-      "discord_username": "muek"
+      "discord_username": "muek",
+      "discord_display_name": "Muek",
+      "discord_banner": "team/muek-banner.png"
     },
     {
       "name": "Bifi",
       "handle": null,
       "role": "Developer / Owner",
+      "discord_about": "Desarrollo y dirección de Flow Caribe RP.",
       "avatar": "team/bifi-discord.png",
       "slug": "bifi",
       "discord_id": "1234631585727254582",
-      "discord_username": "bfbifi"
+      "discord_username": "bfbifi",
+      "discord_display_name": "PRESIDENTE BIFI",
+      "discord_banner": null
     }
   ],
   "owner": {

@@ -18,8 +18,8 @@ GitHub explica ambas convenciones en [perfiles personales](https://docs.github.c
 | `scripts/build_profile.py` | Composición, textos de presentación, proyectos y referencias técnicas |
 | `profile/assets/branding/flow-logo.png` | Reemplazar sólo por un original oficial confirmado |
 | `profile/assets/team/` | Retratos auténticos de Discord guardados como PNG locales |
-| `profile/discord-profiles.json` | Snapshot público de los nombres, IDs y fuentes de los avatares |
-| `scripts/sync_discord_profiles.py` | Actualización manual de nombres de usuario y avatares de Discord |
+| `profile/discord-profiles.json` | Snapshot público de nombres, IDs y fuentes de avatares y banners |
+| `scripts/sync_discord_profiles.py` | Actualización de nombres públicos, usuarios, avatares y banners de Discord |
 | `profile/assets/hosting/master-it-support.png` | Original publicado por el proveedor |
 | `profile/docs/audit.md` | Evidencia pública y limitaciones de verificación |
 
@@ -32,17 +32,17 @@ python scripts/validate_profile.py
 
 Ambos comandos usan Python 3.10 o posterior y sólo su biblioteca estándar. La generación es determinista: no consulta APIs, no toma fechas del sistema y no produce commits.
 
-Para renovar los perfiles públicos de Discord antes de regenerar:
+Para renovar manualmente los perfiles públicos de Discord antes de regenerar:
 
 ```powershell
-python scripts/sync_discord_profiles.py --checked-on AAAA-MM-DD
+python scripts/sync_discord_profiles.py
 python scripts/build_profile.py
 python scripts/validate_profile.py
 ```
 
-Sustituir `AAAA-MM-DD` por la fecha local de la consulta. La sincronización usa el servicio público de lookup empleado por el README de OscarDev; valida cada ID y descarga los PNG directamente de `cdn.discordapp.com`. No requiere tokens ni consulta mensajes, presencia o membresías. Si una consulta falla, no sustituye los datos anteriores. Los PNG quedan embebidos en los SVG: abrir el README no hace consultas al servicio de lookup.
+La fecha predeterminada es la fecha local de Costa Rica; `--checked-on AAAA-MM-DD` permite indicar explícitamente la fecha de consulta. La sincronización usa el lookup público del README de OscarDev, valida cada ID y descarga PNG directamente de `cdn.discordapp.com`. Sincroniza nombre global, usuario, avatar y banner; si no hay nombre global utiliza el usuario, y si se elimina el banner restaura el fondo de marca. No requiere tokens de Discord. Si una consulta falla, no sustituye ninguno de los datos anteriores. Los PNG quedan embebidos en los SVG: abrir el README no consulta el servicio de lookup.
 
-Los nombres visibles y roles editoriales permanecen en `profile/profile.json`. Bifi conserva el nombre solicitado por el usuario, aunque su nombre global en Discord sea «PRESIDENTE BIFI». Muek tiene el rol principal Developer y la función adicional Owner de Master IT Support; `hosting.owner` mantiene la atribución en la tarjeta del proveedor. La sincronización no modifica estas funciones ni inventa cuentas de GitHub.
+Los nombres editoriales, roles y descripciones permanecen en `profile/profile.json`. La card muestra el nombre público dinámico `discord_display_name`: para Bifi, actualmente «PRESIDENTE BIFI». Muek tiene el rol Developer y la función adicional Owner de Master IT Support; `hosting.owner` mantiene la atribución en la tarjeta del proveedor. La sincronización no modifica estas funciones ni inventa cuentas de GitHub. La decoración de OscarDev se conserva como recurso original local y no se deduce de la API.
 
 `community` contiene valores `null` para Discord, web, TikTok, Instagram del servidor, documentación y conexión FiveM. Añadir una URL HTTPS oficial confirmada y regenerar: aparecerá en el ecosistema. Los valores vacíos no crean botones ni enlaces de relleno.
 
@@ -54,7 +54,15 @@ Los proyectos públicos están definidos en `PROJECTS` en el generador. Antes de
 
 La comprobación regenera los archivos y verifica que coincidan con las fuentes, además de validar rutas y fuentes responsive, XML/viewBox de SVG, metadatos accesibles, ausencia de scripts y dependencias externas en SVG, límite de 1 MiB por SVG y firmas PNG/JPEG. No garantiza que una web externa siga disponible ni reproduce el sanitizador de GitHub.
 
-No se programa actualización de repositorios ni de avatares: la selección editorial y la ausencia de servicios de estadísticas mantienen el README estable.
+## Actualización automática de Discord
+
+El usuario solicitó cards que se actualicen como la referencia de OscarDev. `.github/workflows/update-discord.yml` comprueba diariamente los tres perfiles a las **00:23 de Costa Rica** (06:23 UTC), permite ejecución manual y también se ejecuta al cambiar las fuentes de las cards.
+
+El job utiliza `contents: write` para guardar únicamente cambios de nombres públicos, usuarios, avatares, banners, snapshots y SVG/README derivados. Ejecuta siete pruebas offline, sincroniza, regenera y valida antes de hacer un commit con `github-actions[bot]`. Si no cambia la información, conserva también la fecha de la copia anterior y no genera ningún commit. Si una consulta o validación falla, el job termina sin publicar. Los roles y las descripciones editoriales se conservan.
+
+La programación diaria se activa **cuando el workflow existe en la rama predeterminada**, según la [documentación de GitHub](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule). Mientras esté únicamente en `codex/flow-caribe-profile`, las ejecuciones por push permiten comprobarlo, pero el cron aún no está activo. Integrar la rama principal requiere la autorización del usuario indicada en el encargo original. El repositorio de destino también debe permitir escritura de Actions; no se cambian automáticamente sus ajustes.
+
+La selección de repositorios y los roles siguen siendo editoriales. Esta automatización actualiza sólo la identidad pública de Discord y no utiliza estadísticas ni presencia en tiempo real.
 
 ## Revisión visual local
 
@@ -69,9 +77,9 @@ La comprobación visual opcional usa Node.js con `marked` y `playwright`. En est
 
 ## Resultado de la entrega
 
-- Dos entradas README y 21 SVG estáticos, con cinco imágenes originales locales.
+- Dos entradas README y 21 SVG autocontenidos, con siete imágenes originales locales: logo, logo del proveedor, tres retratos, banner de Muek y decoración APNG de OscarDev.
 - Logo original transparente de 460 × 460 px; no se fabrica un maestro de mayor resolución ni un SVG del logotipo.
 - Identidad centrada en Flow Caribe RP y tres tarjetas equivalentes con avatares y enlaces de Discord. Muek es Developer y propietario de Master IT Support; Bifi es Developer / Owner del servidor. El hosting conserva su rol diferenciado.
 - Código público atribuido como forks, con referencias a tecnologías verificables y sin afirmaciones sobre despliegue.
 - Enlaces de GitHub e Instagram comprobados con HTTP 200; el hosting fue accesible en navegador, pero bloquea algunas consultas HTTP automatizadas con 403.
-- La generación y la validación no crean commits ni publican cambios. El commit y el push se realizan únicamente cuando el usuario los autoriza.
+- La generación y la validación offline no publican cambios. La actualización automática de las cards, solicitada por el usuario, crea un commit sólo cuando cambia la información pública y pasan los controles.

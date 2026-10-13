@@ -50,13 +50,14 @@ function filesIn(dir) {
         await page.goto(base, { waitUntil: 'networkidle' });
         const metrics = await page.evaluate(() => ({
           overflow: document.documentElement.scrollWidth > innerWidth,
-          images: [...document.images].map(img => ({ src: new URL(img.currentSrc).pathname, loaded: img.complete && img.naturalWidth > 0, width: img.getBoundingClientRect().width, height: img.getBoundingClientRect().height })),
+          images: [...document.images].map(img => ({ src: new URL(img.currentSrc).pathname, loaded: img.complete && img.naturalWidth > 0, width: img.getBoundingClientRect().width, height: img.getBoundingClientRect().height, top:img.getBoundingClientRect().top, bottom:img.getBoundingClientRect().bottom })),
           links: document.querySelectorAll('a').length,
           tables: document.querySelectorAll('table').length,
         }));
         if (metrics.overflow || metrics.images.some(img => !img.loaded)) throw new Error(`Failed layout or image at ${width}px/${theme}`);
         const team = metrics.images.filter(img => img.src.includes('/team/'));
         if (team.length !== expectedTeamCount || team.some(card => Math.abs(team[0].width-card.width)>1 || Math.abs(team[0].height-card.height)>1)) throw new Error('Unequal developer cards');
+        if (team.some((card,index)=>index>0 && card.top<team[index-1].bottom)) throw new Error('Discord cards must be stacked vertically');
         await page.screenshot({ path: path.join(output, `${theme}-${width}.png`), fullPage: true });
         report.viewports.push({ theme, width, ...metrics });
       }
