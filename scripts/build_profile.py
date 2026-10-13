@@ -140,19 +140,27 @@ def hero(mobile=False):
 
 
 def developer(person, mobile=False):
-    w, h = (288, 344) if mobile else (584, 330)
-    avatar_size = 120 if mobile else 126
-    x, y = (w-avatar_size)/2, 34
+    compact = len(CONFIG["developers"]) >= 3
+    w, h = ((128, 290) if compact else (288, 344)) if mobile else ((384, 330) if compact else (584, 330))
+    small = compact and mobile
+    avatar_size = 80 if small else (120 if mobile else 126)
+    x, y = (w-avatar_size)/2, 24 if small else 34
     out = panel(w, h)
     out += f'<defs><clipPath id="avatar"><rect x="{x}" y="{y}" width="{avatar_size}" height="{avatar_size}" rx="24"/></clipPath></defs>'
     out += f'<circle cx="{w/2}" cy="{y+avatar_size/2}" r="{avatar_size*.64}" fill="#30203F"/>'
     out += image(person["avatar"], x, y, avatar_size, avatar_size, 'clip-path="url(#avatar)"')
     out += f'<rect x="{x}" y="{y}" width="{avatar_size}" height="{avatar_size}" rx="24" fill="none" stroke="#A775EA" stroke-opacity=".6"/>'
-    out += text(w/2, 211, person["name"], 35 if mobile else 34, weight=700, anchor="middle", display=True)
-    out += text(w/2, 251, person["role"], 25 if mobile else 23, C["ice"], anchor="middle")
-    out += text(w/2, 303, "@"+person["handle"], 21 if mobile else 20, C["muted"], anchor="middle")
-    write(f'team/{person["slug"]}{"-mobile" if mobile else ""}.svg', svg(w, h, person["name"]+" · Developer",
-          f'Avatar público auténtico de GitHub. {person["name"]}, integrante del equipo de desarrollo de Flow Caribe RP. GitHub: {person["handle"]}.', out))
+    out += text(w/2, 147 if small else 211, person["name"], 24 if small else (35 if mobile else 34), weight=700, anchor="middle", display=True)
+    if small and " / " in person["role"]:
+        first_role, second_role = person["role"].split(" / ", 1)
+        out += lines(w/2, 182, [first_role + " /", second_role], 17, 23, fill=C["ice"], anchor="middle")
+    else:
+        out += text(w/2, 194 if small else 251, person["role"], 17 if small else (25 if mobile else 23), C["ice"], anchor="middle")
+    handle = person.get("discord_username") or person.get("handle")
+    out += text(w/2, 257 if small else 303, "@"+handle, 15 if small else (21 if mobile else 20), C["muted"], anchor="middle")
+    service = "Discord" if person.get("discord_id") else "GitHub"
+    write(f'team/{person["slug"]}{"-mobile" if mobile else ""}.svg', svg(w, h, person["name"]+" · "+person["role"],
+          f'Avatar público auténtico de {service}. {person["name"]}, {person["role"]} de Flow Caribe RP. {service}: {handle}.', out))
 
 
 def owner(mobile=False):
@@ -166,8 +174,8 @@ def owner(mobile=False):
         out += text(28, 202, "Dirección del proyecto", 20, C["muted"])
     if mobile:
         out += text(28, 287, "Instagram", 24, C["ice"])
-    write(f'components/owner{"-mobile" if mobile else ""}.svg', svg(w, h, "bfgeezy · Server Owner",
-          "bfgeezy, propietario de Flow Caribe RP. Abrir su perfil de Instagram.", out))
+    write(f'components/owner{"-mobile" if mobile else ""}.svg', svg(w, h, CONFIG["owner"]["name"]+" · Server Owner",
+          CONFIG["owner"]["name"]+", propietario de Flow Caribe RP y miembro del equipo de desarrollo. Abrir su perfil de Instagram.", out))
 
 
 def hosting(mobile=False):
@@ -193,7 +201,7 @@ def development(mobile=False):
     out += text(32 if mobile else 42, 60, "El trabajo detrás del roleplay.", 31 if mobile else 34, weight=700, display=True)
     items = [("code", "FiveM", "Lua"), ("screen", "Web & NUI", "React · TypeScript"),
              ("data", "Datos", "mysql-async"), ("tools", "Herramientas", "Python"),
-             ("server", "Infraestructura", "Master IT Support"), ("team", "Desarrollo", "OscarDev + Muek")]
+             ("server", "Infraestructura", "Master IT Support"), ("team", "Desarrollo", " + ".join(p["name"] for p in CONFIG["developers"]))]
     cols = 2 if mobile else 3
     for i, (symbol, name, detail) in enumerate(items):
         col, row = i % cols, i // cols
@@ -203,7 +211,7 @@ def development(mobile=False):
         out += text(cx, top+76, name, 27 if mobile else 25, weight=600, anchor="middle")
         out += text(cx, top+110, detail, 22 if mobile else 20, C["muted"], anchor="middle")
     write(f'components/development{"-mobile" if mobile else ""}.svg', svg(w, h, "Behind the experience",
-          "Tecnologías observadas en repositorios públicos: FiveM y Lua, React y TypeScript, mysql-async y Python. No confirma su despliegue. Infraestructura: Master IT Support. Desarrollo: OscarDev y Muek.", out))
+          "Tecnologías observadas en repositorios públicos: FiveM y Lua, React y TypeScript, mysql-async y Python. No confirma su despliegue. Infraestructura: Master IT Support. Desarrollo: "+", ".join(p["name"] for p in CONFIG["developers"])+".", out))
 
 
 PROJECTS = [
@@ -251,24 +259,32 @@ def linked(url, contents):
     return f'<a href="{esc(url)}">{contents}</a>'
 
 
+def person_link(person):
+    if person.get("discord_id"):
+        return "https://discord.com/users/" + person["discord_id"]
+    return "https://github.com/" + person["handle"]
+
+
 def readme(prefix, docs):
     hero_img = picture(prefix, "hero/desktop.svg", "hero/mobile.svg", "Flow Caribe RP. FiveM Roleplay Community. " + CONFIG["tagline"])
     out = [f'<!-- Generated by scripts/build_profile.py. Edit profile/profile.json or the builder. -->\n\n<p align="center">\n  {linked(CONFIG["github"], hero_img)}\n</p>',
            '## ABOUT FLOW CARIBE RP\n\n**Flow Caribe RP** es un proyecto de FiveM que reúne comunidad, desarrollo y operación técnica alrededor de una experiencia de roleplay con identidad caribeña. El trabajo en equipo sostiene la evolución del servidor, sus sistemas personalizados y las experiencias que comparte la comunidad.',
-           '## THE DEVELOPMENT TEAM\n\nDos desarrolladores, una misma visión para Flow Caribe RP.']
+           '## THE DEVELOPMENT TEAM\n\nOscarDev, Muek y Bifi forman el equipo de desarrollo de Flow Caribe RP. Bifi combina desarrollo y dirección del proyecto.']
     cards = []
     for person in CONFIG["developers"]:
         name = person["slug"]
-        cards.append(linked("https://github.com/"+person["handle"], picture(prefix, f"team/{name}.svg", f"team/{name}-mobile.svg",
-                      f'{person["name"]} · Developer. Ver perfil de GitHub: {person["handle"]}.', "49%")))
+        service = "Discord" if person.get("discord_id") else "GitHub"
+        handle = person.get("discord_username") or person.get("handle")
+        cards.append(linked(person_link(person), picture(prefix, f"team/{name}.svg", f"team/{name}-mobile.svg",
+                      f'{person["name"]} · {person["role"]}. Ver perfil de {service}: {handle}.', "32%" if len(CONFIG["developers"]) >= 3 else "49%")))
     out.append('<p align="center">\n  ' + '\n  '.join(cards) + '\n</p>')
     out.append('## PROJECT & INFRASTRUCTURE')
     out.append('<p align="center">\n  ' + linked(CONFIG["owner"]["url"], picture(prefix, "components/owner.svg", "components/owner-mobile.svg",
-               "bfgeezy · Server Owner. Dirección del proyecto. Ver Instagram.", "49%")) + '\n  ' + linked(CONFIG["hosting"]["url"], picture(prefix,
+               CONFIG["owner"]["name"]+" · Server Owner. Dirección del proyecto. Ver Instagram.", "49%")) + '\n  ' + linked(CONFIG["hosting"]["url"], picture(prefix,
                "hosting/hosting.svg", "hosting/hosting-mobile.svg", "Master IT Support · Infrastructure & Hosting. Ver sitio oficial.", "49%")) + '\n</p>')
     out.append('## BEHIND THE EXPERIENCE')
     out.append('<p align="center">\n  ' + picture(prefix, "components/development.svg", "components/development-mobile.svg",
-               "Repositorios públicos: FiveM y Lua; Web y NUI con React y TypeScript; datos con mysql-async; herramientas con Python. Hosting: Master IT Support. Desarrollo: OscarDev y Muek.") + '\n</p>')
+               "Repositorios públicos: FiveM y Lua; Web y NUI con React y TypeScript; datos con mysql-async; herramientas con Python. Hosting: Master IT Support. Desarrollo: "+", ".join(p["name"] for p in CONFIG["developers"])+".") + '\n</p>')
     out.append('Las tecnologías mostradas se pueden consultar en el código público de `flowcariberp`. Describen esos repositorios y no constituyen un inventario de lo que está desplegado en el servidor.')
     out.append('<details>\n<summary>Consultar las referencias técnicas</summary>\n\n'
                '| Área | Evidencia pública |\n| :--- | :--- |\n'
@@ -284,8 +300,9 @@ def readme(prefix, docs):
                '| Espacio | Enlace |\n| :--- | :--- |\n'
                f'| **Flow Caribe RP** | [GitHub · flowcariberp]({CONFIG["github"]}) |\n'
                f'| Organización de GitHub | [FlowCaribe]({CONFIG["organization"]}) |\n' +
-               ''.join(f'| {p["name"]} · Developer | [GitHub · {p["handle"]}](https://github.com/{p["handle"]}) |\n' for p in CONFIG["developers"]) +
-               f'| bfgeezy · Server Owner | [Instagram]({CONFIG["owner"]["url"]}) |\n'
+               ''.join(f'| {p["name"]} · {p["role"]} | [Discord · @{p["discord_username"]}]({person_link(p)})' +
+                       (f' · [GitHub](https://github.com/{p["handle"]})' if p.get("handle") else '') + ' |\n' for p in CONFIG["developers"]) +
+               f'| {CONFIG["owner"]["name"]} · Dirección del proyecto | [Instagram · bfgeezy]({CONFIG["owner"]["url"]}) |\n'
                f'| Master IT Support · Hosting | [Sitio oficial]({CONFIG["hosting"]["url"]}) |')
     extra = {"discord": "Discord", "website": "Web oficial", "tiktok": "TikTok", "instagram": "Instagram del servidor",
              "documentation": "Documentación", "fivem": "Conexión FiveM"}
@@ -315,7 +332,7 @@ def main():
           '<defs><linearGradient id="line"><stop stop-color="#8550B0" stop-opacity="0"/><stop offset=".5" stop-color="#B0D0E0"/><stop offset="1" stop-color="#24D9FF" stop-opacity="0"/></linearGradient></defs><path d="M0 12h1200" stroke="url(#line)"/>'))
     (PROFILE / "README.md").write_text(readme("assets/", "docs/"), encoding="utf-8", newline="\n")
     (ROOT / "README.md").write_text(readme("profile/assets/", "profile/docs/"), encoding="utf-8", newline="\n")
-    print("Built 19 SVG assets and 2 README entry points.")
+    print(f"Built {len(list(ASSETS.rglob('*.svg')))} SVG assets and 2 README entry points.")
 
 
 if __name__ == "__main__":

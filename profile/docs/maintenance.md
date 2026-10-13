@@ -17,7 +17,9 @@ GitHub explica ambas convenciones en [perfiles personales](https://docs.github.c
 | `profile/profile.json` | Participantes, destinos públicos, canales confirmados, colores |
 | `scripts/build_profile.py` | Composición, textos de presentación, proyectos y referencias técnicas |
 | `profile/assets/branding/flow-logo.png` | Reemplazar sólo por un original oficial confirmado |
-| `profile/assets/team/` | Retratos auténticos de GitHub |
+| `profile/assets/team/` | Retratos auténticos de Discord guardados como PNG locales |
+| `profile/discord-profiles.json` | Snapshot público de los nombres, IDs y fuentes de los avatares |
+| `scripts/sync_discord_profiles.py` | Actualización manual de nombres de usuario y avatares de Discord |
 | `profile/assets/hosting/master-it-support.png` | Original publicado por el proveedor |
 | `profile/docs/audit.md` | Evidencia pública y limitaciones de verificación |
 
@@ -29,6 +31,18 @@ python scripts/validate_profile.py
 ```
 
 Ambos comandos usan Python 3.10 o posterior y sólo su biblioteca estándar. La generación es determinista: no consulta APIs, no toma fechas del sistema y no produce commits.
+
+Para renovar los perfiles públicos de Discord antes de regenerar:
+
+```powershell
+python scripts/sync_discord_profiles.py --checked-on AAAA-MM-DD
+python scripts/build_profile.py
+python scripts/validate_profile.py
+```
+
+Sustituir `AAAA-MM-DD` por la fecha local de la consulta. La sincronización usa el servicio público de lookup empleado por el README de OscarDev; valida cada ID y descarga los PNG directamente de `cdn.discordapp.com`. No requiere tokens ni consulta mensajes, presencia o membresías. Si una consulta falla, no sustituye los datos anteriores. Los PNG quedan embebidos en los SVG: abrir el README no hace consultas al servicio de lookup.
+
+Los nombres visibles y roles editoriales permanecen en `profile/profile.json`. Bifi conserva el nombre solicitado por el usuario, aunque su nombre global en Discord sea «PRESIDENTE BIFI». La sincronización no modifica sus funciones ni inventa cuentas de GitHub.
 
 `community` contiene valores `null` para Discord, web, TikTok, Instagram del servidor, documentación y conexión FiveM. Añadir una URL HTTPS oficial confirmada y regenerar: aparecerá en el ecosistema. Los valores vacíos no crean botones ni enlaces de relleno.
 
@@ -55,9 +69,9 @@ La comprobación visual opcional usa Node.js con `marked` y `playwright`. En est
 
 ## Resultado de la entrega
 
-- Dos entradas README y 19 SVG estáticos, con cuatro imágenes originales locales.
+- Dos entradas README y 21 SVG estáticos, con cinco imágenes originales locales.
 - Logo original transparente de 460 × 460 px; no se fabrica un maestro de mayor resolución ni un SVG del logotipo.
-- Identidad centrada en Flow Caribe RP, desarrolladores equivalentes y roles diferenciados de propietario y hosting.
+- Identidad centrada en Flow Caribe RP, tres tarjetas equivalentes con avatares y enlaces de Discord, y Bifi reconocido como Developer / Owner. El hosting conserva su rol diferenciado.
 - Código público atribuido como forks, con referencias a tecnologías verificables y sin afirmaciones sobre despliegue.
 - Enlaces de GitHub e Instagram comprobados con HTTP 200; el hosting fue accesible en navegador, pero bloquea algunas consultas HTTP automatizadas con 403.
 - La generación y la validación no crean commits ni publican cambios. El commit y el push se realizan únicamente cuando el usuario los autoriza.

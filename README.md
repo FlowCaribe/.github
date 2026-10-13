@@ -10,24 +10,25 @@
 
 ## THE DEVELOPMENT TEAM
 
-Dos desarrolladores, una misma visión para Flow Caribe RP.
+OscarDev, Muek y Bifi forman el equipo de desarrollo de Flow Caribe RP. Bifi combina desarrollo y dirección del proyecto.
 
 <p align="center">
-  <a href="https://github.com/Oscar-Dev0"><picture><source media="(max-width: 600px)" srcset="profile/assets/team/oscardev-mobile.svg" /><img src="profile/assets/team/oscardev.svg" width="49%" alt="OscarDev · Developer. Ver perfil de GitHub: Oscar-Dev0." /></picture></a>
-  <a href="https://github.com/iMuek"><picture><source media="(max-width: 600px)" srcset="profile/assets/team/muek-mobile.svg" /><img src="profile/assets/team/muek.svg" width="49%" alt="Muek · Developer. Ver perfil de GitHub: iMuek." /></picture></a>
+  <a href="https://discord.com/users/518251720128856084"><picture><source media="(max-width: 600px)" srcset="profile/assets/team/oscardev-mobile.svg" /><img src="profile/assets/team/oscardev.svg" width="32%" alt="OscarDev · Developer. Ver perfil de Discord: oscar_dev." /></picture></a>
+  <a href="https://discord.com/users/193858356052623360"><picture><source media="(max-width: 600px)" srcset="profile/assets/team/muek-mobile.svg" /><img src="profile/assets/team/muek.svg" width="32%" alt="Muek · Developer. Ver perfil de Discord: muek." /></picture></a>
+  <a href="https://discord.com/users/1234631585727254582"><picture><source media="(max-width: 600px)" srcset="profile/assets/team/bifi-mobile.svg" /><img src="profile/assets/team/bifi.svg" width="32%" alt="Bifi · Developer / Owner. Ver perfil de Discord: bfbifi." /></picture></a>
 </p>
 
 ## PROJECT & INFRASTRUCTURE
 
 <p align="center">
-  <a href="https://www.instagram.com/bfgeezy"><picture><source media="(max-width: 600px)" srcset="profile/assets/components/owner-mobile.svg" /><img src="profile/assets/components/owner.svg" width="49%" alt="bfgeezy · Server Owner. Dirección del proyecto. Ver Instagram." /></picture></a>
+  <a href="https://www.instagram.com/bfgeezy"><picture><source media="(max-width: 600px)" srcset="profile/assets/components/owner-mobile.svg" /><img src="profile/assets/components/owner.svg" width="49%" alt="Bifi · Server Owner. Dirección del proyecto. Ver Instagram." /></picture></a>
   <a href="https://masteritsupport.com/"><picture><source media="(max-width: 600px)" srcset="profile/assets/hosting/hosting-mobile.svg" /><img src="profile/assets/hosting/hosting.svg" width="49%" alt="Master IT Support · Infrastructure &amp; Hosting. Ver sitio oficial." /></picture></a>
 </p>
 
 ## BEHIND THE EXPERIENCE
 
 <p align="center">
-  <picture><source media="(max-width: 600px)" srcset="profile/assets/components/development-mobile.svg" /><img src="profile/assets/components/development.svg" width="100%" alt="Repositorios públicos: FiveM y Lua; Web y NUI con React y TypeScript; datos con mysql-async; herramientas con Python. Hosting: Master IT Support. Desarrollo: OscarDev y Muek." /></picture>
+  <picture><source media="(max-width: 600px)" srcset="profile/assets/components/development-mobile.svg" /><img src="profile/assets/components/development.svg" width="100%" alt="Repositorios públicos: FiveM y Lua; Web y NUI con React y TypeScript; datos con mysql-async; herramientas con Python. Hosting: Master IT Support. Desarrollo: OscarDev, Muek, Bifi." /></picture>
 </p>
 
 Las tecnologías mostradas se pueden consultar en el código público de `flowcariberp`. Describen esos repositorios y no constituyen un inventario de lo que está desplegado en el servidor.
@@ -61,9 +62,10 @@ Una selección del código disponible en [GitHub de Flow Caribe RP](https://gith
 | :--- | :--- |
 | **Flow Caribe RP** | [GitHub · flowcariberp](https://github.com/flowcariberp) |
 | Organización de GitHub | [FlowCaribe](https://github.com/FlowCaribe) |
-| OscarDev · Developer | [GitHub · Oscar-Dev0](https://github.com/Oscar-Dev0) |
-| Muek · Developer | [GitHub · iMuek](https://github.com/iMuek) |
-| bfgeezy · Server Owner | [Instagram](https://www.instagram.com/bfgeezy) |
+| OscarDev · Developer | [Discord · @oscar_dev](https://discord.com/users/518251720128856084) · [GitHub](https://github.com/Oscar-Dev0) |
+| Muek · Developer | [Discord · @muek](https://discord.com/users/193858356052623360) · [GitHub](https://github.com/iMuek) |
+| Bifi · Developer / Owner | [Discord · @bfbifi](https://discord.com/users/1234631585727254582) |
+| Bifi · Dirección del proyecto | [Instagram · bfgeezy](https://www.instagram.com/bfgeezy) |
 | Master IT Support · Hosting | [Sitio oficial](https://masteritsupport.com/) |
 
 <p align="center">
